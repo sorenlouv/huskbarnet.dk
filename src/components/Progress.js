@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CircularProgress } from 'material-ui/Progress';
 
-export default function CentralizedSpinner({ isLoading = true }) {
+export default function Progress({ isLoading = true }) {
   if (!isLoading) {
     return null;
   }
@@ -13,7 +13,7 @@ export default function CentralizedSpinner({ isLoading = true }) {
   );
 }
 
-CentralizedSpinner.propTypes = {
+Progress.propTypes = {
   classes: PropTypes.object.isRequired,
   isLoading: PropTypes.bool
 };

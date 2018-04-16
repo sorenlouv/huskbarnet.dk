@@ -7,7 +7,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
-import CentralizedSpinner from './CentralizedSpinner';
+import Progress from './Progress';
 import Modal from './Modal';
 import AddFab from './AddFab';
 import firebase from '../services/firebase';
@@ -95,7 +95,7 @@ class ListEmails extends Component {
     const emails = get(this.state.user, 'emails');
 
     if (this.state.isLoading) {
-      return <CentralizedSpinner />;
+      return <Progress />;
     }
 
     return (

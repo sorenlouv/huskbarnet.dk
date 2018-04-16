@@ -17,7 +17,7 @@ import AuthenticatedNavigation from './components/AuthenticatedNavigation';
 import GuestNavigation from './components/GuestNavigation';
 import Help from './components/Help';
 import WithAuthenticatedUser from './components/WithAuthenticatedUser';
-import CentralizedSpinner from './components/CentralizedSpinner';
+import Progress from './components/Progress';
 import registerServiceWorker from './registerServiceWorker';
 
 const styles = () => ({
@@ -38,7 +38,7 @@ function App({ classes }) {
         <WithAuthenticatedUser
           render={(authUser, loading) => {
             if (loading) {
-              return <CentralizedSpinner />;
+              return <Progress />;
             }
 
             if (!authUser) {

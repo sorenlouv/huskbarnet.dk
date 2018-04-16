@@ -8,7 +8,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from 'material-ui/IconButton';
 import firebase from '../services/firebase';
 import AddKid from './AddKid';
-import CentralizedSpinner from './CentralizedSpinner';
+import Progress from './Progress';
 import Modal from './Modal';
 import AddFab from './AddFab';
 import ViewKid from './ViewKid';
@@ -68,7 +68,7 @@ class ListKids extends Component {
     const activeKid = get(kids, this.state.activeKidKey);
 
     if (this.state.isLoading) {
-      return <CentralizedSpinner />;
+      return <Progress />;
     }
 
     return (
