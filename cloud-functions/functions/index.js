@@ -42,13 +42,12 @@ exports.getReminders = functions.https.onRequest((req, res) => {
     .then(emails => {
       console.log(emails);
       if (sendemails) {
-        return Promise.all(emails.map(sendEmail)).then(() => emails.length);
+        return Promise.all(emails.map(sendEmail)).then(() => {
+          return res.send(`Send ${emails.length} emails`);
+        });
       } else {
-        return emails.length;
+        return res.send(emails);
       }
-    })
-    .then(emails => {
-      return res.send(`Found ${emails} emails`);
     })
     .catch(e => {
       res.send(e);
