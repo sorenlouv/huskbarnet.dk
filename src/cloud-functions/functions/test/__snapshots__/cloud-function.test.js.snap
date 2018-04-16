@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`formatReminders should format reminders correctly 1`] = `
+Array [
+  Object {
+    "dateOfBirth": "2017-12-22",
+    "email": "myemail+xtra@gmail.com",
+    "emails": Object {
+      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
+      "auth": "myemail@gmail.com",
+    },
+    "gender": "male",
+    "name": "Lars",
+  },
+  Object {
+    "dateOfBirth": "2017-12-22",
+    "email": "myemail@gmail.com",
+    "emails": Object {
+      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
+      "auth": "myemail@gmail.com",
+    },
+    "gender": "male",
+    "name": "Lars",
+  },
+  Object {
+    "dateOfBirth": "2016-01-25",
+    "email": "myemail+xtra@gmail.com",
+    "emails": Object {
+      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
+      "auth": "myemail@gmail.com",
+    },
+    "gender": "male",
+    "name": "Søren",
+  },
+  Object {
+    "dateOfBirth": "2016-01-25",
+    "email": "myemail@gmail.com",
+    "emails": Object {
+      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
+      "auth": "myemail@gmail.com",
+    },
+    "gender": "male",
+    "name": "Søren",
+  },
+  Object {
+    "dateOfBirth": "2016-08-15",
+    "email": "myemail+xtra@gmail.com",
+    "emails": Object {
+      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
+      "auth": "myemail@gmail.com",
+    },
+    "gender": "female",
+    "name": "Sille",
+  },
+  Object {
+    "dateOfBirth": "2016-08-15",
+    "email": "myemail@gmail.com",
+    "emails": Object {
+      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
+      "auth": "myemail@gmail.com",
+    },
+    "gender": "female",
+    "name": "Sille",
+  },
+]
+`;
