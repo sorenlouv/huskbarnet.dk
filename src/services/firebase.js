@@ -1,9 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-// import 'firebase/firestore';
-// import 'firebase/messaging';
-// import 'firebase/functions';
 
 const config = {
   apiKey: 'AIzaSyBuqvQWCbYvQw-hyaT_dCpfsR5LufIyDdk',
@@ -17,25 +14,9 @@ const config = {
 export default firebase.initializeApp(config);
 
 export function createUser(email, password) {
-  return firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+  return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
 export function login(email, password) {
-  return firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+  return firebase.auth().signInWithEmailAndPassword(email, password);
 }

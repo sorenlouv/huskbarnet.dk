@@ -2,24 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
-import { login } from '../services/firebase';
 import Snackbar from 'material-ui/Snackbar';
-import Button from 'material-ui/Button';
 import { textField } from './styles';
+import { createUser } from '../services/firebase';
 import ButtonProgress from './ButtonProgress';
 
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column'
-  },
-  signupLink: {
-    textDecoration: 'none'
+    flexDirection: 'column',
+    alignItems: 'flex-start'
   },
   textField: textField(theme)
 });
 
-class Login extends Component {
+class SignUp extends Component {
   state = {
     isLoading: false,
     email: '',
@@ -37,7 +34,7 @@ class Login extends Component {
     event.preventDefault();
     this.setState({ isLoading: true });
     try {
-      await login(this.state.email, this.state.password);
+      await createUser(this.state.email, this.state.password);
     } catch (e) {
       this.setState({ isLoading: false, errorCode: e.code });
     }
@@ -45,35 +42,27 @@ class Login extends Component {
 
   render() {
     const { classes } = this.props;
-    const { isLoading, errorCode, email, password } = this.state;
+    const { isLoading, errorCode } = this.state;
 
     return (
       <form onSubmit={this.onSubmit} className={classes.root}>
         <TextField
           label="Email"
           className={classes.textField}
-          value={email}
+          value={this.state.email}
           onChange={this.handleChange('email')}
           margin="normal"
         />
-
         <TextField
           label="Password"
           className={classes.textField}
-          value={password}
+          value={this.state.password}
           onChange={this.handleChange('password')}
           type="password"
           margin="normal"
         />
 
-        <div>
-          <a href="#/signup" className={classes.signupLink}>
-            <Button variant="raised" color="default">
-              Opret konto
-            </Button>
-          </a>
-          <ButtonProgress isLoading={isLoading} label="Log ind" />
-        </div>
+        <ButtonProgress isLoading={isLoading} label="Opret" />
 
         <Snackbar
           open={errorCode != null}
@@ -91,22 +80,22 @@ function parseError(errorCode) {
   switch (errorCode) {
     case null:
       return '';
+    case 'auth/email-already-in-use':
+      return 'Email-adressen er allerede i brug';
     case 'auth/invalid-email':
-      return 'Emailadressen er ugyldig';
-    case 'auth/user-disabled':
-      return 'Brugeren er deaktiveret';
-    case 'auth/user-not-found':
-      return 'Emailadressen eksisterer ikke';
-    case 'auth/wrong-password':
-      return 'Forkert adgangskode';
+      return 'Email-adressen er ugyldig';
+    case 'auth/operation-not-allowed':
+      return 'Login er deaktiveret';
+    case 'auth/weak-password':
+      return 'Passwordet er for svagt';
     default:
       console.error(errorCode);
       return 'Der skete en fejl';
   }
 }
 
-Login.propTypes = {
+SignUp.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(SignUp);
