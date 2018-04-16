@@ -2,8 +2,8 @@ import res from './response.json';
 import {
   formatReminders,
   getDates,
-  getReminderMessages
-} from '../../../cloud-functions/functions/getRemindersHelpers';
+  getEmailsToSend
+} from '../getRemindersHelpers';
 
 describe('formatReminders', () => {
   it('should format reminders correctly', () => {
@@ -25,7 +25,7 @@ describe('getDates', () => {
   });
 });
 
-describe('getReminderMessages', () => {
+describe('getEmailsToSend', () => {
   it('It should format messages correctly', () => {
     const adminMock = {};
     adminMock.database = () => adminMock;
@@ -36,7 +36,7 @@ describe('getReminderMessages', () => {
     adminMock.then = cb => cb({ val: () => res });
 
     return expect(
-      getReminderMessages('2017-12-22', adminMock)
-    ).resolves.toEqual();
+      getEmailsToSend('2017-12-22', adminMock)
+    ).resolves.toMatchSnapshot();
   });
 });

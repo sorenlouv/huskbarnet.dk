@@ -1,5 +1,15 @@
 const { map, padStart, flatten } = require('lodash');
 
+const vaccinationTitles = [
+  '3 måneder',
+  '5 måneder',
+  '12 måneder',
+  '15 måneder',
+  '4 år',
+  '5 år',
+  '12 år'
+];
+
 function createDate(startDate, months, years) {
   const date = new Date(startDate);
   date.setMonth(date.getMonth() + months);
@@ -48,21 +58,30 @@ function getRemindersByDate(date, admin) {
     .then(res => formatReminders(res.val()));
 }
 
-function formatMessage(reminder, groupId) {
-  return `Dette er en påmindelse om, at dit barn ${
-    reminder.name
-  } snart skal have sin (${groupId}) vaccination. ${reminder.email}`;
+function formatEmail(reminder, groupId) {
+  return {
+    subject: `Påmindelse om vaccination af ${reminder.name}`,
+    email: reminder.email,
+    message: `Dette er en påmindelse om, at dit barn ${
+      reminder.name
+    } skal have sin ${
+      vaccinationTitles[groupId]
+    }s vaccination. Du skal selv bestille tid hos lægen. Læs mere på https://www.sundhed.dk/borger/patienthaandbogen/boern/undersoegelser/boerneundersoegelser/
+Med venlig hilsen BørnePåmindelser.dk`
+  };
 }
 
-function getReminderMessages(startDate, admin) {
+function getEmailsToSend(startDate, admin) {
   const promises = getDates(startDate).map(date =>
     getRemindersByDate(date, admin)
   );
   return Promise.all(promises)
     .then(groups => {
-      return groups.map((group, groupId) => {
-        return group.map(reminder => formatMessage(reminder, groupId));
-      });
+      return flatten(
+        groups.map((group, groupId) => {
+          return group.map(reminder => formatEmail(reminder, groupId));
+        })
+      );
     })
     .catch(e => {
       console.log(e);
@@ -70,7 +89,8 @@ function getReminderMessages(startDate, admin) {
 }
 
 module.exports = {
-  getReminderMessages,
+  getEmailsToSend,
   formatReminders,
-  getDates
+  getDates,
+  vaccinationTitles
 };

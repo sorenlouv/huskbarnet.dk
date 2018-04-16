@@ -1,16 +1,54 @@
+const nodemailer = require('nodemailer');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const {
-  getReminderMessages
-} = require('../../src/services/getRemindersHelpers');
+const { getEmailData } = require('../../src/services/getRemindersHelpers');
 admin.initializeApp();
 
-exports.getReminders = functions.https.onRequest((req, res) => {
-  const date = req.query.date || '2017-12-22';
+const mailTransport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: functions.config().gmail.email, // Google Cloud env vars
+    pass: functions.config().gmail.password // Google Cloud env vars
+  }
+});
 
-  getReminderMessages(date, admin)
-    .then(reminderMessages => {
-      return res.send(reminderMessages);
+function sendEmail(emailReminder) {
+  const mailOptions = {
+    from: '"BørnePåmindelser.dk" <boernepaamindelser@gmail.com>',
+    to: emailReminder.email,
+    subject: emailReminder.subject,
+    text: emailReminder.message
+  };
+
+  return mailTransport
+    .sendMail(mailOptions)
+    .then(() => console.log(mailOptions))
+    .catch(error =>
+      console.error(
+        'There was an error while sending the email:',
+        emailReminder,
+        mailOptions,
+        error
+      )
+    );
+}
+
+exports.getReminders = functions.https.onRequest((req, res) => {
+  const todayDate = new Date().toISOString().slice(0, 10);
+  const date = req.query.date || todayDate;
+  const sendemails = Boolean(req.query.sendemails);
+
+  getEmailsToSend(date, admin)
+    .then(emails => {
+      console.log(emails);
+      if (sendemails) {
+        return Promise.all(emails.map(sendEmail)).then(() => emails.length);
+      } else {
+        return emails.length;
+      }
+    })
+    .then(emails => {
+      return res.send(`Found ${emails} emails`);
     })
     .catch(e => {
       res.send(e);

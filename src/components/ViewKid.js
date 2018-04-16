@@ -8,7 +8,7 @@ import Table, {
   TableRow
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-import { getDates } from '../services/getRemindersHelpers';
+import { getDates, vaccinationTitles } from '../services/getRemindersHelpers';
 import { formatDate } from '../services/date';
 
 const styles = theme => ({
@@ -21,16 +21,6 @@ const styles = theme => ({
     width: '100%'
   }
 });
-
-const ages = [
-  '3 måneder',
-  '5 måneder',
-  '12 måneder',
-  '15 måneder',
-  '4 år',
-  '5 år',
-  '12 år'
-];
 
 function ViewKid({ classes, kid }) {
   const dates = getDates(kid.dateOfBirth, true);
@@ -53,7 +43,7 @@ function ViewKid({ classes, kid }) {
           {dates.map((date, i) => {
             return (
               <TableRow key={i}>
-                <TableCell>{ages[i]}</TableCell>
+                <TableCell>{vaccinationTitles[i]}</TableCell>
                 <TableCell>{formatDate(date)}</TableCell>
                 <TableCell>TODO</TableCell>
               </TableRow>
