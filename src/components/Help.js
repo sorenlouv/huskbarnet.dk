@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 
-const styles = theme => ({});
+const styles = () => ({});
 
-function Help({ classes }) {
+function Help() {
   return <div>TODO</div>;
 }
 

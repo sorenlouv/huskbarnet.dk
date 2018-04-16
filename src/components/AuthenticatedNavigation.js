@@ -10,7 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitIcon from '@material-ui/icons/ExitToApp';
 import firebase from '../services/firebase';
 
-const styles = theme => ({
+const styles = () => ({
   navigation: {
     backgroundColor: '#eee'
   }
@@ -54,7 +54,8 @@ function AuthenticatedNavigation({ location, classes }) {
 }
 
 AuthenticatedNavigation.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 export default withRouter(withStyles(styles)(AuthenticatedNavigation));

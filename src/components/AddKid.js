@@ -101,7 +101,9 @@ AddKid.propTypes = {
   classes: PropTypes.object.isRequired,
   userRef: PropTypes.object.isRequired,
   remindersRef: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  emails: PropTypes.array,
+  authUser: PropTypes.object
 };
 
 export default withStyles(styles)(AddKid);

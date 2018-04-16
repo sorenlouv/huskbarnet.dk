@@ -8,6 +8,8 @@ import Table, {
   TableRow
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
+import { getDates } from '../services/getRemindersHelpers';
+import { formatDate } from '../services/date';
 
 const styles = theme => ({
   root: {
@@ -20,24 +22,40 @@ const styles = theme => ({
   }
 });
 
-const data = [];
+const ages = [
+  '3 måneder',
+  '5 måneder',
+  '12 måneder',
+  '15 måneder',
+  '4 år',
+  '5 år',
+  '12 år'
+];
 
-function ViewKid({ classes }) {
+function ViewKid({ classes, kid }) {
+  const dates = getDates(kid.dateOfBirth, true);
+
   return (
     <Paper className={classes.root}>
+      <p>
+        Du vil modtage påmindelser for vaccinationer for {kid.name} på følgende
+        datoer:
+      </p>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
+            <TableCell>Alder</TableCell>
             <TableCell>Dato</TableCell>
-            <TableCell>Vaccination</TableCell>
+            <TableCell>Beskrivelse</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(n => {
+          {dates.map((date, i) => {
             return (
-              <TableRow key={n.id}>
-                <TableCell>{n.name}</TableCell>
-                <TableCell>{n.calories}</TableCell>
+              <TableRow key={i}>
+                <TableCell>{ages[i]}</TableCell>
+                <TableCell>{formatDate(date)}</TableCell>
+                <TableCell>TODO</TableCell>
               </TableRow>
             );
           })}
@@ -48,7 +66,8 @@ function ViewKid({ classes }) {
 }
 
 ViewKid.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  kid: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ViewKid);

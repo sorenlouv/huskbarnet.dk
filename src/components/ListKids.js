@@ -12,6 +12,7 @@ import CentralizedSpinner from './CentralizedSpinner';
 import Modal from './Modal';
 import AddFab from './AddFab';
 import ViewKid from './ViewKid';
+import { formatDate } from '../services/date';
 
 const styles = theme => ({
   list: {
@@ -85,7 +86,7 @@ class ListKids extends Component {
                       this.setState({ activeKidKey: key });
                     }}
                     primary={item.name}
-                    secondary={formatDob(item.dateOfBirth)}
+                    secondary={formatDate(item.dateOfBirth)}
                   />
                   <Tooltip id="tooltip-icon" title="Fjern">
                     <IconButton
@@ -124,11 +125,6 @@ class ListKids extends Component {
       </div>
     );
   }
-}
-
-function formatDob(dateString) {
-  const [year, month, day] = dateString.split('-');
-  return `${day}-${month}-${year}`;
 }
 
 ListKids.propTypes = {

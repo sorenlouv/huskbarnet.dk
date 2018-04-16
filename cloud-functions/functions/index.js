@@ -1,8 +1,8 @@
-const { getReminderMessages } = require('./getRemindersHelpers');
-
-const { map } = require('lodash');
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const {
+  getReminderMessages
+} = require('../../src/services/getRemindersHelpers');
 admin.initializeApp();
 
 exports.getReminders = functions.https.onRequest((req, res) => {

@@ -6,7 +6,7 @@ import Modal from 'material-ui/Modal';
 const styles = theme => ({
   modal: {
     position: 'absolute',
-    maxWidth: theme.spacing.unit * 50,
+    maxWidth: theme.spacing.unit * 75,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 2,

@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 import LockOpen from '@material-ui/icons/LockOpen';
 import HelpIcon from '@material-ui/icons/Help';
 
-const styles = theme => ({
+const styles = () => ({
   navigation: {
     backgroundColor: '#eee'
   }
@@ -38,7 +38,8 @@ function GuestNavigation({ location, classes }) {
 }
 
 GuestNavigation.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 export default withRouter(withStyles(styles)(GuestNavigation));

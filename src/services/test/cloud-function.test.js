@@ -1,4 +1,3 @@
-import jest from 'jest';
 import res from './response.json';
 import {
   formatReminders,

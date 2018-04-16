@@ -5,7 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
 import green from 'material-ui/colors/green';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     display: 'inline-block'
   },

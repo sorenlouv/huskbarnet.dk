@@ -14,15 +14,16 @@ function formatDate(date) {
   return `${year}-${padStart(month, 2, 0)}-${padStart(day, 2, 0)}`;
 }
 
-function getDates(startDate) {
+function getDates(startDate, IN_FUTURE = false) {
+  const d = IN_FUTURE ? 1 : -1;
   return [
-    createDate(startDate, -3, 0), // 3 months
-    createDate(startDate, -5, 0), // 5 months
-    createDate(startDate, -12, 0), // 12 months
-    createDate(startDate, -15, 0), // 15 months
-    createDate(startDate, 0, -4), // 4 years
-    createDate(startDate, 0, -5), // 5 years
-    createDate(startDate, 0, -12) // 12 years
+    createDate(startDate, d * 3, 0), // 3 months
+    createDate(startDate, d * 5, 0), // 5 months
+    createDate(startDate, d * 12, 0), // 12 months
+    createDate(startDate, d * 15, 0), // 15 months
+    createDate(startDate, 0, d * 4), // 4 years
+    createDate(startDate, 0, d * 5), // 5 years
+    createDate(startDate, 0, d * 12) // 12 years
   ];
 }
 

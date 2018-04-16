@@ -20,7 +20,7 @@ import WithAuthenticatedUser from './components/WithAuthenticatedUser';
 import CentralizedSpinner from './components/CentralizedSpinner';
 import registerServiceWorker from './registerServiceWorker';
 
-const styles = theme => ({
+const styles = () => ({
   mainContainer: {
     maxWidth: '600px',
     position: 'relative',
