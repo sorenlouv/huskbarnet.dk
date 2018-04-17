@@ -1,5 +1,5 @@
 {
-  "name": "doctor-reminders",
+  "name": "boernepaamindelser",
   "version": "0.1.0",
   "homepage": "http://sqren.github.io/boernepaamindelser/",
   "private": true,
@@ -11,8 +11,7 @@
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4",
-    "uuid": "^3.2.1"
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "deploy": "gh-pages -d build",
