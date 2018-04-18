@@ -14,6 +14,5 @@ export default function Progress({ isLoading = true }) {
 }
 
 Progress.propTypes = {
-  classes: PropTypes.object.isRequired,
   isLoading: PropTypes.bool
 };

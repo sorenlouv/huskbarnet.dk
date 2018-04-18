@@ -7,8 +7,7 @@ import Table, {
   TableHead,
   TableRow
 } from 'material-ui/Table';
-import Paper from 'material-ui/Paper';
-import { getDates, vaccinationTitles } from '../services/getRemindersHelpers';
+import { getDate, ageGroups } from '../services/getRemindersHelpers';
 import { formatDate } from '../services/date';
 
 const styles = theme => ({
@@ -17,20 +16,33 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto'
   },
+  introText: {
+    fontSize: '13px',
+    marginRight: '10%'
+  },
   table: {
     width: '100%'
   }
 });
 
-function ViewKid({ classes, kid }) {
-  const dates = getDates(kid.dateOfBirth, true);
+function getDescription(group) {
+  const { examination, vaccination } = group;
+  if (examination && vaccination) {
+    return `Vaccination og børneundersøgelse`;
+  } else if (vaccination) {
+    return `Vaccination`;
+  } else {
+    return `Børneundersøgelse`;
+  }
+}
 
+function ViewKid({ classes, kid }) {
   return (
-    <Paper className={classes.root}>
-      <p>
-        Du vil modtage påmindelser for vaccinationer for {kid.name} på følgende
-        datoer:
-      </p>
+    <div className={classes.root}>
+      <div className={classes.introText}>
+        Du vil modtage påmindelser for vaccinationer og børneundersøgelser for{' '}
+        {kid.name} på følgende datoer:
+      </div>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -40,18 +52,21 @@ function ViewKid({ classes, kid }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {dates.map((date, i) => {
+          {ageGroups.map((group, i) => {
+            const d = getDate(kid.dateOfBirth, group.daysAfterBirth, true);
+            const date = formatDate(d);
+
             return (
               <TableRow key={i}>
-                <TableCell>{vaccinationTitles[i]}</TableCell>
-                <TableCell>{formatDate(date)}</TableCell>
-                <TableCell>TODO</TableCell>
+                <TableCell>{group.title}</TableCell>
+                <TableCell>{date}</TableCell>
+                <TableCell>{getDescription(group)}</TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
-    </Paper>
+    </div>
   );
 }
 

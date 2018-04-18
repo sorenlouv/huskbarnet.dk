@@ -1,19 +1,81 @@
 const { map, padStart, flatten } = require('lodash');
 
-const vaccinationTitles = [
-  '3 måneder',
-  '5 måneder',
-  '12 måneder',
-  '15 måneder',
-  '4 år',
-  '5 år',
-  '12 år'
+const ageGroups = [
+  {
+    daysAfterBirth: 7 * 5,
+    examination: true,
+    vaccination: false,
+    title: '5 uger',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 3,
+    examination: false,
+    vaccination: true,
+    title: '3 måneder',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 5,
+    examination: true,
+    vaccination: true,
+    title: '5 måneder',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 12,
+    examination: true,
+    vaccination: true,
+    title: '12 måneder',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 15,
+    examination: true,
+    vaccination: true,
+    title: '15 måneder',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 12 * 2,
+    examination: true,
+    vaccination: false,
+    title: '2 år',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 12 * 3,
+    examination: true,
+    vaccination: false,
+    title: '3 år',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 12 * 4,
+    examination: true,
+    vaccination: true,
+    title: '4 år',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 12 * 5,
+    examination: true,
+    vaccination: true,
+    title: '5 år',
+    text: () => ''
+  },
+  {
+    daysAfterBirth: 30 * 12 * 12,
+    examination: false,
+    vaccination: true,
+    title: '12 år',
+    text: () => ''
+  }
 ];
 
-function createDate(startDate, months, years) {
+function createDate(startDate, days) {
   const date = new Date(startDate);
-  date.setMonth(date.getMonth() + months);
-  date.setFullYear(date.getFullYear() + years);
+  date.setDate(date.getDate() + days);
   return formatDate(date);
 }
 
@@ -24,17 +86,9 @@ function formatDate(date) {
   return `${year}-${padStart(month, 2, 0)}-${padStart(day, 2, 0)}`;
 }
 
-function getDates(startDate, IN_FUTURE = false) {
+function getDate(startDate, daysAfterBirth, IN_FUTURE = false) {
   const d = IN_FUTURE ? 1 : -1;
-  return [
-    createDate(startDate, d * 3, 0), // 3 months
-    createDate(startDate, d * 5, 0), // 5 months
-    createDate(startDate, d * 12, 0), // 12 months
-    createDate(startDate, d * 15, 0), // 15 months
-    createDate(startDate, 0, d * 4), // 4 years
-    createDate(startDate, 0, d * 5), // 5 years
-    createDate(startDate, 0, d * 12) // 12 years
-  ];
+  return createDate(startDate, d * daysAfterBirth);
 }
 
 function formatReminders(snapshotValue) {
@@ -48,8 +102,8 @@ function formatReminders(snapshotValue) {
   return emailReminders;
 }
 
-function getRemindersByDate(date, admin) {
-  return admin
+function getRemindersByDate(date, adminRef) {
+  return adminRef
     .database()
     .ref('/reminders')
     .orderByChild('dateOfBirth')
@@ -58,28 +112,69 @@ function getRemindersByDate(date, admin) {
     .then(res => formatReminders(res.val()));
 }
 
-function formatEmail(reminder, groupId) {
+function getEmailMessage(recipient, groupId) {
+  const { examination, vaccination } = ageGroups[groupId];
+
+  const vaccinationText = vaccination
+    ? `have sin ${ageGroups[groupId].title}s vaccination`
+    : '';
+
+  const examinationText = examination ? `til børneundersøgelse` : '';
+  const textSeparator = examination && vaccination ? ' og ' : '';
+
+  return `Kære forælder,
+
+Dette er en påmindelse om, at dit barn ${
+    recipient.name
+  } skal ${vaccinationText}${textSeparator}${examinationText} hos jeres læge. Du skal selv huske at bestille tid.
+${
+    examination
+      ? `
+Læs mere om børneundersøgelserne på https://www.sundhed.dk/borger/patienthaandbogen/boern/undersoegelser/boerneundersoegelser/`
+      : ''
+  }${
+    vaccination
+      ? `
+Læs mere om det danske vaccinations program på https://sst.dk/da/sygdom-og-behandling/vaccinationer/~/media/811A9F6CD64B4462B6FDFE503787CC71.ashx`
+      : ''
+  }
+
+Med venlig hilsen
+BørnePåmindelser.dk`;
+}
+
+function getEmailSubject(recipient, groupId) {
+  const { examination, vaccination } = ageGroups[groupId];
+
+  if (examination && vaccination) {
+    return `Påmindelse om vaccination og børneundersøgelse af ${
+      recipient.name
+    }`;
+  } else if (vaccination) {
+    return `Påmindelse om vaccination af ${recipient.name}`;
+  } else {
+    return `Påmindelse om børneundersøgelse af ${recipient.name}`;
+  }
+}
+
+function formatEmail(recipient, groupId) {
   return {
-    subject: `Påmindelse om vaccination af ${reminder.name}`,
-    email: reminder.email,
-    message: `Dette er en påmindelse om, at dit barn ${
-      reminder.name
-    } skal have sin ${
-      vaccinationTitles[groupId]
-    }s vaccination. Du skal selv bestille tid hos lægen. Læs mere på https://www.sundhed.dk/borger/patienthaandbogen/boern/undersoegelser/boerneundersoegelser/
-Med venlig hilsen BørnePåmindelser.dk`
+    subject: getEmailSubject(recipient, groupId),
+    email: recipient.email,
+    message: getEmailMessage(recipient, groupId)
   };
 }
 
-function getEmailsToSend(startDate, admin) {
-  const promises = getDates(startDate).map(date =>
-    getRemindersByDate(date, admin)
-  );
+function getEmailsToSend(startDate, adminRef) {
+  const promises = ageGroups.map(group => {
+    const date = getDate(startDate, group.daysAfterBirth);
+    return getRemindersByDate(date, adminRef);
+  });
   return Promise.all(promises)
     .then(groups => {
       return flatten(
         groups.map((group, groupId) => {
-          return group.map(reminder => formatEmail(reminder, groupId));
+          return group.map(recipient => formatEmail(recipient, groupId));
         })
       );
     })
@@ -91,6 +186,6 @@ function getEmailsToSend(startDate, admin) {
 module.exports = {
   getEmailsToSend,
   formatReminders,
-  getDates,
-  vaccinationTitles
+  ageGroups,
+  getDate
 };

@@ -2,26 +2,15 @@
   "key1": {
     "dateOfBirth": "2017-12-22",
     "emails": {
-      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
-      "auth": "myemail@gmail.com"
+      "auth": "larsfar@gmail.com"
     },
     "gender": "male",
     "name": "Lars"
   },
   "key2": {
-    "dateOfBirth": "2016-01-25",
-    "emails": {
-      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
-      "auth": "myemail@gmail.com"
-    },
-    "gender": "male",
-    "name": "Søren"
-  },
-  "key3": {
     "dateOfBirth": "2016-08-15",
     "emails": {
-      "-LA9um4pV5zg_Ac9cYgc": "myemail+xtra@gmail.com",
-      "auth": "myemail@gmail.com"
+      "auth": "sillemor@gmail.com"
     },
     "gender": "female",
     "name": "Sille"

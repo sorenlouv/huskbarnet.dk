@@ -1,42 +1,34 @@
-import res from './response.json';
+import dbResponse from './response.json';
 import {
   formatReminders,
-  getDates,
-  getEmailsToSend
+  getEmailsToSend,
+  getDate
 } from '../getRemindersHelpers';
 
 describe('formatReminders', () => {
   it('should format reminders correctly', () => {
-    expect(formatReminders(res)).toMatchSnapshot();
+    expect(formatReminders(dbResponse)).toMatchSnapshot();
   });
 });
 
-describe('getDates', () => {
-  it('should return 7 dates ', () => {
-    expect(getDates('2015-04-01')).toEqual([
-      '2015-01-01',
-      '2014-11-01',
-      '2014-04-01',
-      '2014-01-01',
-      '2011-04-01',
-      '2010-04-01',
-      '2003-04-01'
-    ]);
+describe('getDate', () => {
+  it('should return correct dates', () => {
+    expect(getDate('2015-04-01', 30)).toBe('2015-03-02');
   });
 });
 
 describe('getEmailsToSend', () => {
   it('It should format messages correctly', () => {
-    const adminMock = {};
-    adminMock.database = () => adminMock;
-    adminMock.ref = () => adminMock;
-    adminMock.orderByChild = () => adminMock;
-    adminMock.equalTo = () => adminMock;
-    adminMock.once = () => adminMock;
-    adminMock.then = cb => cb({ val: () => res });
+    const adminRefMock = {};
+    adminRefMock.database = () => adminRefMock;
+    adminRefMock.ref = () => adminRefMock;
+    adminRefMock.orderByChild = () => adminRefMock;
+    adminRefMock.equalTo = () => adminRefMock;
+    adminRefMock.once = () => adminRefMock;
+    adminRefMock.then = cb => cb({ val: () => dbResponse });
 
     return expect(
-      getEmailsToSend('2017-12-22', adminMock)
+      getEmailsToSend('2017-12-22', adminRefMock)
     ).resolves.toMatchSnapshot();
   });
 });

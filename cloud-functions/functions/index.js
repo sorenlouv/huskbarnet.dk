@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+const adminRef = require('firebase-admin');
 const { getEmailsToSend } = require('./getRemindersHelpers');
-admin.initializeApp();
+adminRef.initializeApp();
 
 const mailTransport = nodemailer.createTransport({
   service: 'gmail',
@@ -38,7 +38,7 @@ exports.getReminders = functions.https.onRequest((req, res) => {
   const date = req.query.date || todayDate;
   const sendemails = Boolean(req.query.sendemails);
 
-  getEmailsToSend(date, admin)
+  getEmailsToSend(date, adminRef)
     .then(emails => {
       console.log(emails);
       if (sendemails) {
