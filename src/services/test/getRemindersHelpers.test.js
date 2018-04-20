@@ -13,7 +13,8 @@ describe('formatReminders', () => {
 
 describe('getDate', () => {
   it('should return correct dates', () => {
-    expect(getDate('2015-04-01', 30)).toBe('2015-03-02');
+    expect(getDate('2015-04-01', { months: 12 })).toBe('2014-04-01');
+    expect(getDate('2015-04-01', { days: 14 }, true)).toBe('2015-04-15');
   });
 });
 

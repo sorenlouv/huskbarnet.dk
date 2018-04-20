@@ -4,82 +4,96 @@ const { map, padStart, flatten } = require('lodash');
 
 const ageGroups = [
   {
-    daysAfterBirth: 7 * 5,
+    timeAfterBirth: {
+      days: 7 * 5
+    },
     examination: true,
     vaccination: false,
     title: '5 uger',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 3,
+    timeAfterBirth: {
+      months: 3
+    },
     examination: false,
     vaccination: true,
     title: '3 måneder',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 5,
+    timeAfterBirth: {
+      months: 5
+    },
     examination: true,
     vaccination: true,
     title: '5 måneder',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 12,
+    timeAfterBirth: {
+      months: 12
+    },
     examination: true,
     vaccination: true,
     title: '12 måneder',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 15,
+    timeAfterBirth: {
+      months: 15
+    },
     examination: true,
     vaccination: true,
     title: '15 måneder',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 12 * 2,
+    timeAfterBirth: {
+      months: 12 * 2
+    },
     examination: true,
     vaccination: false,
     title: '2 år',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 12 * 3,
+    timeAfterBirth: {
+      months: 12 * 3
+    },
     examination: true,
     vaccination: false,
     title: '3 år',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 12 * 4,
+    timeAfterBirth: {
+      months: 12 * 4
+    },
     examination: true,
     vaccination: true,
     title: '4 år',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 12 * 5,
+    timeAfterBirth: {
+      months: 12 * 5
+    },
     examination: true,
     vaccination: true,
     title: '5 år',
     text: () => ''
   },
   {
-    daysAfterBirth: 30 * 12 * 12,
+    timeAfterBirth: {
+      months: 12 * 12
+    },
     examination: false,
     vaccination: true,
     title: '12 år',
     text: () => ''
   }
 ];
-
-function createDate(startDate, days) {
-  const date = new Date(startDate);
-  date.setDate(date.getDate() + days);
-  return formatDate(date);
-}
 
 function formatDate(date) {
   const day = date.getDate();
@@ -88,9 +102,14 @@ function formatDate(date) {
   return `${year}-${padStart(month, 2, 0)}-${padStart(day, 2, 0)}`;
 }
 
-function getDate(startDate, daysAfterBirth, IN_FUTURE = false) {
-  const d = IN_FUTURE ? 1 : -1;
-  return createDate(startDate, d * daysAfterBirth);
+function getDate(startDate, timeAfterBirth, IN_FUTURE = false) {
+  const { days = 0, months = 0 } = timeAfterBirth;
+
+  const direction = IN_FUTURE ? 1 : -1;
+  const date = new Date(startDate);
+  date.setDate(date.getDate() + days * direction);
+  date.setMonth(date.getMonth() + months * direction);
+  return formatDate(date);
 }
 
 function formatReminders(snapshotValue) {
@@ -169,7 +188,7 @@ function formatEmail(recipient, groupId) {
 
 function getEmailsToSend(startDate, adminRef) {
   const promises = ageGroups.map(group => {
-    const date = getDate(startDate, group.daysAfterBirth);
+    const date = getDate(startDate, group.timeAfterBirth);
     return getRemindersByDate(date, adminRef);
   });
   return Promise.all(promises)

@@ -53,7 +53,7 @@ function ViewKid({ classes, kid }) {
         </TableHead>
         <TableBody>
           {ageGroups.map((group, i) => {
-            const d = getDate(kid.dateOfBirth, group.daysAfterBirth, true);
+            const d = getDate(kid.dateOfBirth, group.timeAfterBirth, true);
             const date = formatDate(d);
 
             return (
