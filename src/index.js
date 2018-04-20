@@ -19,6 +19,7 @@ import Help from './components/Help';
 import WithAuthenticatedUser from './components/WithAuthenticatedUser';
 import Progress from './components/Progress';
 import registerServiceWorker from './registerServiceWorker';
+import './polyfills';
 
 const styles = () => ({
   mainContainer: {
