@@ -30,8 +30,7 @@ class SignUp extends Component {
     });
   };
 
-  onSubmit = async event => {
-    event.preventDefault();
+  onSubmit = async () => {
     this.setState({ isLoading: true });
     try {
       await createUser(this.state.email, this.state.password);
@@ -45,7 +44,7 @@ class SignUp extends Component {
     const { isLoading, errorCode } = this.state;
 
     return (
-      <form onSubmit={this.onSubmit} className={classes.root}>
+      <form className={classes.root}>
         <TextField
           label="Email"
           className={classes.textField}
@@ -62,7 +61,11 @@ class SignUp extends Component {
           margin="normal"
         />
 
-        <ButtonProgress isLoading={isLoading} label="Opret" />
+        <ButtonProgress
+          isLoading={isLoading}
+          label="Opret"
+          onClick={this.onSubmit}
+        />
 
         <Snackbar
           open={errorCode != null}

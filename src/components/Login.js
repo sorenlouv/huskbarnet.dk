@@ -33,8 +33,7 @@ class Login extends Component {
     });
   };
 
-  onSubmit = async event => {
-    event.preventDefault();
+  onSubmit = async () => {
     this.setState({ isLoading: true });
     try {
       await login(this.state.email, this.state.password);
@@ -48,7 +47,7 @@ class Login extends Component {
     const { isLoading, errorCode, email, password } = this.state;
 
     return (
-      <form onSubmit={this.onSubmit} className={classes.root}>
+      <form className={classes.root}>
         <TextField
           label="Email"
           className={classes.textField}
@@ -68,11 +67,16 @@ class Login extends Component {
 
         <div>
           <a href="#/signup" className={classes.signupLink}>
-            <Button variant="raised" color="default">
+            <Button variant="raised" color="default" type="button">
               Opret konto
             </Button>
           </a>
-          <ButtonProgress isLoading={isLoading} label="Log ind" />
+          <ButtonProgress
+            type="button"
+            isLoading={isLoading}
+            label="Log ind"
+            onClick={this.onSubmit}
+          />
         </div>
 
         <Snackbar
@@ -99,6 +103,8 @@ function parseError(errorCode) {
       return 'Emailadressen eksisterer ikke';
     case 'auth/wrong-password':
       return 'Forkert adgangskode';
+    case 'auth/too-many-requests':
+      return 'For mange forsøg. Prøv igen senere';
     default:
       console.error(errorCode);
       return 'Der skete en fejl';

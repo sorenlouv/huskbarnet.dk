@@ -21,15 +21,15 @@ const styles = () => ({
   }
 });
 
-function ButtonProgress({ classes, isLoading, label }) {
+function ButtonProgress({ classes, isLoading, label, ...props }) {
   return (
     <div className={classes.root}>
       <div className={classes.buttonContainer}>
         <Button
-          type="submit"
           variant="raised"
           color="primary"
           disabled={isLoading}
+          {...props}
         >
           {label}
         </Button>

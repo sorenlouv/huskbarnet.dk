@@ -18,7 +18,6 @@ import GuestNavigation from './components/GuestNavigation';
 import Help from './components/Help';
 import WithAuthenticatedUser from './components/WithAuthenticatedUser';
 import Progress from './components/Progress';
-import registerServiceWorker from './registerServiceWorker';
 import './polyfills';
 
 const styles = () => ({
@@ -91,4 +90,3 @@ App.propTypes = {
 const AppWithStyles = withStyles(styles)(App);
 
 ReactDOM.render(<AppWithStyles />, document.getElementById('root'));
-registerServiceWorker();
