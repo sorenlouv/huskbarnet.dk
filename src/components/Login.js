@@ -34,7 +34,7 @@ class Login extends Component {
   };
 
   onSubmit = async () => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, errorCode: null });
     try {
       await login(this.state.email, this.state.password);
     } catch (e) {

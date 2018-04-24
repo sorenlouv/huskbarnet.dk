@@ -31,7 +31,7 @@ class SignUp extends Component {
   };
 
   onSubmit = async () => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, errorCode: null });
     try {
       await createUser(this.state.email, this.state.password);
     } catch (e) {
