@@ -1,7 +1,7 @@
 {
   "name": "boernepaamindelser",
   "version": "0.1.0",
-  "homepage": "https://børnepåmindelser.dk",
+  "homepage": "https://sqren.github.io/boernepaamindelser/",
   "private": true,
   "dependencies": {
     "@material-ui/icons": "^1.0.0-beta.42",
