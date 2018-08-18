@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
-import Tooltip from 'material-ui/Tooltip';
-import List, { ListItem, ListItemText } from 'material-ui/List';
+import Tooltip from '@material-ui/core/Tooltip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
-import IconButton from 'material-ui/IconButton';
+import IconButton from '@material-ui/core/IconButton';
 import firebase from '../services/firebase';
 import AddKid from './AddKid';
 import Progress from './Progress';

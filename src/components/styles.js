@@ -1,5 +1,5 @@
-export const textField = theme => ({
+export const textField = (theme, width = '200px') => ({
   marginLeft: theme.spacing.unit,
   marginRight: theme.spacing.unit,
-  width: 200
+  width
 });

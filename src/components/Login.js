@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 import { login } from '../services/firebase';
-import Snackbar from 'material-ui/Snackbar';
-import Button from 'material-ui/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 import { textField } from './styles';
 import ButtonProgress from './ButtonProgress';
 
 const styles = theme => ({
   root: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    padding: `0 ${theme.spacing.unit * 5}px`
+  },
+  buttons: {
+    display: 'flex',
+    'align-items': 'center',
+    'justify-content': 'space-around'
   },
   signupLink: {
     textDecoration: 'none'
   },
-  textField: textField(theme)
+  textField: textField(theme, '100%')
 });
 
 class Login extends Component {
@@ -33,7 +38,8 @@ class Login extends Component {
     });
   };
 
-  onSubmit = async () => {
+  onSubmit = async e => {
+    e.preventDefault();
     this.setState({ isLoading: true, errorCode: null });
     try {
       await login(this.state.email, this.state.password);
@@ -47,7 +53,7 @@ class Login extends Component {
     const { isLoading, errorCode, email, password } = this.state;
 
     return (
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={this.onSubmit}>
         <TextField
           label="Email"
           className={classes.textField}
@@ -65,18 +71,11 @@ class Login extends Component {
           margin="normal"
         />
 
-        <div>
+        <div className={classes.buttons}>
           <a href="#/signup" className={classes.signupLink}>
-            <Button variant="raised" color="default" type="button">
-              Opret konto
-            </Button>
+            Opret konto
           </a>
-          <ButtonProgress
-            type="button"
-            isLoading={isLoading}
-            label="Log ind"
-            onClick={this.onSubmit}
-          />
+          <ButtonProgress type="submit" isLoading={isLoading} label="Log ind" />
         </div>
 
         <Snackbar

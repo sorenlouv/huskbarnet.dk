@@ -1,7 +1,7 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Modal from 'material-ui/Modal';
+import Modal from '@material-ui/core/Modal';
 
 const styles = theme => ({
   modal: {

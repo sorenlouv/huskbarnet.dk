@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
-import Snackbar from 'material-ui/Snackbar';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 import { textField } from './styles';
 import { createUser } from '../services/firebase';
 import ButtonProgress from './ButtonProgress';
@@ -11,9 +11,9 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    padding: `0 ${theme.spacing.unit * 5}px`
   },
-  textField: textField(theme)
+  textField: textField(theme, '100%')
 });
 
 class SignUp extends Component {
@@ -30,7 +30,8 @@ class SignUp extends Component {
     });
   };
 
-  onSubmit = async () => {
+  onSubmit = async e => {
+    e.preventDefault();
     this.setState({ isLoading: true, errorCode: null });
     try {
       await createUser(this.state.email, this.state.password);
@@ -44,7 +45,7 @@ class SignUp extends Component {
     const { isLoading, errorCode } = this.state;
 
     return (
-      <form className={classes.root}>
+      <form className={classes.root} onSubmit={this.onSubmit}>
         <TextField
           label="Email"
           className={classes.textField}
@@ -61,11 +62,9 @@ class SignUp extends Component {
           margin="normal"
         />
 
-        <ButtonProgress
-          isLoading={isLoading}
-          label="Opret"
-          onClick={this.onSubmit}
-        />
+        <div style={{ textAlign: 'right' }}>
+          <ButtonProgress type="submit" isLoading={isLoading} label="Opret" />
+        </div>
 
         <Snackbar
           open={errorCode != null}
