@@ -20,3 +20,7 @@ export function createUser(email, password) {
 export function login(email, password) {
   return firebase.auth().signInWithEmailAndPassword(email, password);
 }
+
+export function sendPasswordResetEmail(email) {
+  return firebase.auth().sendPasswordResetEmail(email);
+}

@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import { textField } from './styles';
-import { createUser } from '../services/firebase';
+import { sendPasswordResetEmail } from '../services/firebase';
 import ButtonProgress from './ButtonProgress';
 
 const styles = theme => ({
@@ -18,23 +18,24 @@ const styles = theme => ({
 
 class SignUp extends Component {
   state = {
+    resetSuccess: false,
     isLoading: false,
     email: '',
-    password: '',
     errorCode: null
   };
 
-  handleChange = name => event => {
+  onChangeEmail = event => {
     this.setState({
-      [name]: event.target.value
+      email: event.target.value
     });
   };
 
   onSubmit = async e => {
     e.preventDefault();
-    this.setState({ isLoading: true, errorCode: null });
+    this.setState({ isLoading: true, errorCode: null, resetSuccess: false });
     try {
-      await createUser(this.state.email, this.state.password);
+      await sendPasswordResetEmail(this.state.email);
+      this.setState({ isLoading: false, resetSuccess: true });
     } catch (e) {
       this.setState({ isLoading: false, errorCode: e.code });
     }
@@ -42,7 +43,7 @@ class SignUp extends Component {
 
   render() {
     const { classes } = this.props;
-    const { isLoading, errorCode } = this.state;
+    const { isLoading, errorCode, resetSuccess } = this.state;
 
     return (
       <form className={classes.root} onSubmit={this.onSubmit}>
@@ -50,26 +51,22 @@ class SignUp extends Component {
           label="Email"
           className={classes.textField}
           value={this.state.email}
-          onChange={this.handleChange('email')}
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          className={classes.textField}
-          value={this.state.password}
-          onChange={this.handleChange('password')}
-          type="password"
+          onChange={this.onChangeEmail}
           margin="normal"
         />
 
         <div style={{ textAlign: 'right' }}>
-          <ButtonProgress type="submit" isLoading={isLoading} label="Opret" />
+          <ButtonProgress
+            type="submit"
+            isLoading={isLoading}
+            label="Nulstil adgangskode"
+          />
         </div>
 
         <Snackbar
-          open={errorCode != null}
+          open={errorCode != null || resetSuccess}
           autoHideDuration={4000}
-          message={<span>{parseError(errorCode)}</span>}
+          message={<span>{getToastMessage(errorCode, resetSuccess)}</span>}
           className={classes.snackbar}
         />
       </form>
@@ -77,18 +74,22 @@ class SignUp extends Component {
   }
 }
 
+function getToastMessage(errorCode, resetSuccess) {
+  if (resetSuccess) {
+    return 'En midlertidig adgangskode er sendt til din email';
+  }
+
+  return parseError(errorCode);
+}
+
 function parseError(errorCode) {
   switch (errorCode) {
     case null:
       return '';
-    case 'auth/email-already-in-use':
-      return 'Email-adressen er allerede i brug';
     case 'auth/invalid-email':
       return 'Email-adressen er ugyldig';
-    case 'auth/operation-not-allowed':
-      return 'Login er deaktiveret';
-    case 'auth/weak-password':
-      return 'Passwordet er for svagt';
+    case 'auth/user-not-found':
+      return 'Email-adressen eksisterer ikke';
     default:
       console.error(errorCode);
       return 'Der skete en fejl';

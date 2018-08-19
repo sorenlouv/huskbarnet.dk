@@ -19,6 +19,7 @@ import Help from './components/Help';
 import WithAuthenticatedUser from './components/WithAuthenticatedUser';
 import Progress from './components/Progress';
 import './polyfills';
+import ResetPassword from './components/ResetPassword';
 
 const styles = () => ({
   mainContainer: {
@@ -46,6 +47,11 @@ function App({ classes }) {
                 <div>
                   <GuestNavigation />
                   <Switch>
+                    <Route
+                      exact
+                      path="/reset_password"
+                      component={ResetPassword}
+                    />
                     <Route exact path="/signup" component={SignUp} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/help" component={Help} />

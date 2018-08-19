@@ -18,7 +18,7 @@ const styles = theme => ({
     'align-items': 'center',
     'justify-content': 'space-around'
   },
-  signupLink: {
+  links: {
     textDecoration: 'none'
   },
   textField: textField(theme, '100%')
@@ -72,7 +72,11 @@ class Login extends Component {
         />
 
         <div className={classes.buttons}>
-          <a href="#/signup" className={classes.signupLink}>
+          <a href="#/reset_password" className={classes.links}>
+            Glemt adgangskode?
+          </a>
+
+          <a href="#/signup" className={classes.links}>
             Opret konto
           </a>
           <ButtonProgress type="submit" isLoading={isLoading} label="Log ind" />
@@ -81,7 +85,6 @@ class Login extends Component {
         <Snackbar
           open={errorCode != null}
           autoHideDuration={4000}
-          onClose={this.handleClose}
           message={<span>{parseError(errorCode)}</span>}
           className={classes.snackbar}
         />
