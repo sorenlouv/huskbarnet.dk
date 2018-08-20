@@ -63,7 +63,7 @@ class Login extends Component {
         <Paper elevation={1} className={classes.introText}>
           HuskBarnet.dk er en gratis hjælp til forældre med børn i alderen 0 til
           12 år. Ved at oprette dig, får du påmindelser på email hver gang dit
-          barn vaccineres, samt information om denne. <br />
+          barn skal vaccineres, samt information om denne. <br />
           Du kan få påmindelser på alle dine børn og modtage påmindelser på
           flere emails - du kan f.eks. tilføje din glemsomme ægtefælle.
         </Paper>
