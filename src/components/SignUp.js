@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
-import { textField } from './styles';
 import { createUser } from '../services/firebase';
 import ButtonProgress from './ButtonProgress';
 
@@ -13,7 +12,9 @@ const styles = theme => ({
     flexDirection: 'column',
     padding: `0 ${theme.spacing.unit * 5}px`
   },
-  textField: textField(theme, '100%')
+  textField: {
+    width: '100%'
+  }
 });
 
 class SignUp extends Component {

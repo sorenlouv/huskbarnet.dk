@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { login } from '../services/firebase';
 import Snackbar from '@material-ui/core/Snackbar';
-import { textField } from './styles';
+import Paper from '@material-ui/core/Paper';
 import ButtonProgress from './ButtonProgress';
 
 const styles = theme => ({
@@ -12,6 +12,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: `0 ${theme.spacing.unit * 5}px`
+  },
+  introText: {
+    padding: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 2
   },
   buttons: {
     display: 'flex',
@@ -21,7 +25,9 @@ const styles = theme => ({
   links: {
     textDecoration: 'none'
   },
-  textField: textField(theme, '100%')
+  textField: {
+    width: '100%'
+  }
 });
 
 class Login extends Component {
@@ -53,42 +59,56 @@ class Login extends Component {
     const { isLoading, errorCode, email, password } = this.state;
 
     return (
-      <form className={classes.root} onSubmit={this.onSubmit}>
-        <TextField
-          label="Email"
-          className={classes.textField}
-          value={email}
-          onChange={this.handleChange('email')}
-          margin="normal"
-        />
+      <div className={classes.root}>
+        <Paper elevation={1} className={classes.introText}>
+          HuskBarnet.dk er en gratis hjælp til forældre med børn i alderen 0 til
+          12 år. Ved at oprette dig, får du påmindelser på email hver gang dit
+          barn vaccineres, samt information om denne. <br />
+          Du kan få påmindelser på alle dine børn og modtage påmindelser på
+          flere emails - du kan f.eks. tilføje din glemsomme ægtefælle.
+        </Paper>
 
-        <TextField
-          label="Password"
-          className={classes.textField}
-          value={password}
-          onChange={this.handleChange('password')}
-          type="password"
-          margin="normal"
-        />
+        <form onSubmit={this.onSubmit}>
+          <TextField
+            label="Email"
+            className={classes.textField}
+            value={email}
+            onChange={this.handleChange('email')}
+            margin="normal"
+          />
 
-        <div className={classes.buttons}>
-          <a href="#/reset_password" className={classes.links}>
-            Glemt adgangskode?
-          </a>
+          <TextField
+            label="Password"
+            className={classes.textField}
+            value={password}
+            onChange={this.handleChange('password')}
+            type="password"
+            margin="normal"
+          />
 
-          <a href="#/signup" className={classes.links}>
-            Opret konto
-          </a>
-          <ButtonProgress type="submit" isLoading={isLoading} label="Log ind" />
-        </div>
+          <div className={classes.buttons}>
+            <a href="#/reset_password" className={classes.links}>
+              Glemt adgangskode?
+            </a>
 
-        <Snackbar
-          open={errorCode != null}
-          autoHideDuration={4000}
-          message={<span>{parseError(errorCode)}</span>}
-          className={classes.snackbar}
-        />
-      </form>
+            <a href="#/signup" className={classes.links}>
+              Opret konto
+            </a>
+            <ButtonProgress
+              type="submit"
+              isLoading={isLoading}
+              label="Log ind"
+            />
+          </div>
+
+          <Snackbar
+            open={errorCode != null}
+            autoHideDuration={4000}
+            message={<span>{parseError(errorCode)}</span>}
+            className={classes.snackbar}
+          />
+        </form>
+      </div>
     );
   }
 }
