@@ -1,7 +1,7 @@
 {
   "name": "huskbarnet.dk",
   "version": "0.1.0",
-  "homepage": "https://sqren.github.io/huskbarnet.dk/",
+  "homepage": "https://huskbarnet.dk/",
   "private": true,
   "dependencies": {
     "@material-ui/icons": "^2.0.2",
