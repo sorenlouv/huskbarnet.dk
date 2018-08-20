@@ -159,7 +159,7 @@ Læs mere om det danske vaccinations program på https://sst.dk/da/sygdom-og-beh
   }
 
 Med venlig hilsen
-BørnePåmindelser.dk`;
+HuskBarnet.dk`;
 }
 
 function getEmailSubject(recipient, groupId) {

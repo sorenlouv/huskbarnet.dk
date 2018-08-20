@@ -14,7 +14,7 @@ const mailTransport = nodemailer.createTransport({
 
 function sendEmail(emailReminder) {
   const mailOptions = {
-    from: '"BørnePåmindelser.dk" <boernepaamindelser@gmail.com>',
+    from: '"HuskBarnet.dk" <boernepaamindelser@gmail.com>',
     to: emailReminder.email,
     subject: emailReminder.subject,
     text: emailReminder.message
