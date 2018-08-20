@@ -26,12 +26,6 @@ function GuestNavigation({ location, classes }) {
         icon={<LockOpen />}
         value={'/login'}
       />
-      <BottomNavigationAction
-        href="#/help"
-        label="Hjælp"
-        icon={<HelpIcon />}
-        value={'/help'}
-      />
     </BottomNavigation>
   );
 }
