@@ -5,10 +5,13 @@ const { getEmailsToSend } = require('./getRemindersHelpers');
 adminRef.initializeApp();
 
 const mailTransport = nodemailer.createTransport({
-  service: 'gmail',
+  pool: true,
+  host: 'mail.gandi.net',
+  port: 587, // starttls
+  secure: false, // For port 587 or 25 keep it false
   auth: {
-    user: functions.config().gmail.email, // Google Cloud env vars
-    pass: functions.config().gmail.password // Google Cloud env vars
+    user: functions.config().smtp.email, // Google Cloud env vars
+    pass: functions.config().smtp.password // Google Cloud env vars
   }
 });
 
@@ -51,5 +54,29 @@ exports.getReminders = functions.https.onRequest((req, res) => {
     })
     .catch(e => {
       res.send(e);
+    });
+});
+
+exports.testEmail = functions.https.onRequest((req, res) => {
+  const mailOptions = {
+    from: '"HuskBarnet.dk" <info@huskbarnet.dk>',
+    to: 'sorenlouv@gmail.com',
+    subject: 'This is a test email',
+    text: 'Hello from huskbarnet.dk'
+  };
+
+  return mailTransport
+    .sendMail(mailOptions)
+    .then(() => {
+      res.send('Success');
+      console.log(mailOptions);
+    })
+    .catch(error => {
+      res.send('Failed');
+      console.error(
+        'There was an error while sending the email:',
+        mailOptions,
+        error
+      );
     });
 });
