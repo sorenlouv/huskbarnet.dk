@@ -1,6 +1,9 @@
 {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
+  "engines": {
+    "node": "8"
+  },
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
@@ -11,14 +14,14 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "~5.12.0",
-    "firebase-functions": "^1.0.1",
+    "firebase-admin": "~7.3.0",
+    "firebase-functions": "^2.3.0",
     "lodash": "^4.17.5",
     "nodemailer": "^4.6.4"
   },
   "devDependencies": {
-    "eslint": "^4.12.0",
-    "eslint-plugin-promise": "^3.6.0"
+    "eslint": "^5.16.0",
+    "eslint-plugin-promise": "^4.1.1"
   },
   "private": true
 }

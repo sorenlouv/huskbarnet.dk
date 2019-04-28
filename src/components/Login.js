@@ -67,7 +67,7 @@ class Login extends Component {
           denne. <br />
           Du kan få påmindelser på alle dine børn og modtage påmindelser på
           flere emails - du kan f.eks. tilføje din glemsomme ægtefælle. <br />
-          Har du spørgsmål er du velkommen til at rette henvendelse til
+          Har du spørgsmål er du velkommen til at rette henvendelse til{' '}
           <a href="mailto:info@huskbarnet.dk">info@huskbarnet.dk</a>
         </Paper>
 

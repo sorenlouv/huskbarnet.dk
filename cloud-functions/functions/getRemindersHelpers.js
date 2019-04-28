@@ -149,11 +149,11 @@ Dette er en påmindelse om, at dit barn ${
     recipient.name
   } skal ${vaccinationText}${textSeparator}${examinationText} hos jeres læge. Du skal selv huske at bestille tid.
 ${
-    examination
-      ? `
+  examination
+    ? `
 Læs mere om børneundersøgelserne på https://www.sundhed.dk/borger/patienthaandbogen/boern/undersoegelser/boerneundersoegelser/`
-      : ''
-  }${
+    : ''
+}${
     vaccination
       ? `
 Læs mere om det danske vaccinations program på https://sst.dk/da/sygdom-og-behandling/vaccinationer/~/media/811A9F6CD64B4462B6FDFE503787CC71.ashx`

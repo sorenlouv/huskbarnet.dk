@@ -17,7 +17,7 @@ const mailTransport = nodemailer.createTransport({
 
 function sendEmail(emailReminder) {
   const mailOptions = {
-    from: '"HuskBarnet.dk" <boernepaamindelser@gmail.com>',
+    from: '"HuskBarnet.dk" <info@huskbarnet.dk>',
     to: emailReminder.email,
     subject: emailReminder.subject,
     text: emailReminder.message
@@ -36,10 +36,22 @@ function sendEmail(emailReminder) {
     );
 }
 
+// verify that caller is allowed to invoke function
+function isSecretTokenValid(secretToken) {
+  return functions.config().email.secret_token === secretToken;
+}
+
 exports.getReminders = functions.https.onRequest((req, res) => {
   const todayDate = new Date().toISOString().slice(0, 10);
   const date = req.query.date || todayDate;
   const sendemails = Boolean(req.query.sendemails);
+  const secretToken = req.query.secret_token;
+
+  if (!isSecretTokenValid(secretToken)) {
+    console.log('Supplied token was invalid', secretToken);
+    res.send('Invalid Token ' + secretToken);
+    return;
+  }
 
   getEmailsToSend(date, adminRef)
     .then(emails => {
@@ -58,6 +70,14 @@ exports.getReminders = functions.https.onRequest((req, res) => {
 });
 
 exports.testEmail = functions.https.onRequest((req, res) => {
+  const secretToken = req.query.secret_token;
+
+  if (!isSecretTokenValid(secretToken)) {
+    console.log('Supplied token was invalid', secretToken);
+    res.send('Invalid Token ' + secretToken);
+    return;
+  }
+
   const mailOptions = {
     from: '"HuskBarnet.dk" <info@huskbarnet.dk>',
     to: 'sorenlouv@gmail.com',

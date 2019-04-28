@@ -18,7 +18,9 @@ firebase deploy --only functions
 
 # Test email function
 
-https://us-central1-doctor-reminders.cloudfunctions.net/testEmail
+https://us-central1-doctor-reminders.cloudfunctions.net/testEmail?secret_token=...
+
+https://us-central1-doctor-reminders.cloudfunctions.net/getReminders?secret_token=...
 
 # Cron jobs
 
