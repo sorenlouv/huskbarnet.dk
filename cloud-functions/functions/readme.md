@@ -1,3 +1,17 @@
+# Firebase Setup
+
+### Install Firebase CLI tools
+
+```
+curl -sL https://firebase.tools | bash
+```
+
+### Login to Firebase
+
+```
+firebase login
+```
+
 # set email and password as env values
 
 ```
